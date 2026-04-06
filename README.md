@@ -43,4 +43,41 @@ Configurei o **LabELB** em duas Zonas de Disponibilidade para eliminar qualquer 
 ### 3. Automação e Elasticidade (ASG)
 Configurei o **Auto Scaling Group** utilizando um Launch Template. Defini políticas de escalabilidade para manter o equilíbrio entre performance e custo:
 * **Capacidade Desejada:** 2 instâncias.
-* **Cap
+* **Capacidade Mínima:** 2 | **Capacidade Máxima:** 4.
+* **Política de Scaling:** Alvo de **50% de uso de CPU**.
+
+![Definição de Tamanhos](Definindo%20os%20tamanhos.png)
+![Limites Mínimos](Minimos.png)
+
+---
+
+## 🧪 Validação: O Teste de Stress
+Para provar a resiliência da arquitetura, realizei um teste de carga real na CPU para forçar o escalonamento horizontal:
+
+1. **O Gatilho:** Através de um script de stress, a carga de CPU foi elevada para **78%**.
+2. **O Alarme:** O CloudWatch detectou que o limite de 50% foi ultrapassado e mudou o estado do alarme para **"Em Alarme"**.
+3. **A Reação:** O Auto Scaling reagiu imediatamente ao sinal do CloudWatch, lançando novas instâncias (`Lab Instance`) para dividir a carga.
+4. **O Resultado:** A aplicação permaneceu online e estável durante todo o processo de alta demanda.
+
+| Status do Alarme (CPU > 50%) | Escalonamento em Tempo Real |
+| :--- | :--- |
+| ![Alarme CloudWatch](O%20alerta.png) | ![Load Funcionando](Load%20funcionando.png) |
+
+> **Evidência do aumento de carga:**
+> ![Teste de Carga](teste%20de%20load.png)
+
+---
+
+## 🎯 Conclusão e Resultados
+Este laboratório validou habilidades fundamentais para a operação de infraestruturas modernas:
+* ✅ **Tolerância a Falhas:** Redundância geográfica em múltiplas zonas (AZs).
+* ✅ **Eficiência de Custo:** Pagamento apenas pelo recurso necessário através de Scale-in/Scale-out.
+* ✅ **Segurança:** Instâncias isoladas em sub-redes privadas, protegidas do acesso direto via internet.
+
+---
+**Conecte-se comigo:**
+* [LinkedIn](https://www.linkedin.com/in/thiago-barbosa-carneiro/)
+* [Meu Perfil na Escola da Nuvem](https://escoladanuvem.org/)
+
+---
+*Projeto documentado por Thiago Barbosa Carneiro - 2026*
